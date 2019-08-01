@@ -411,7 +411,7 @@ public void OnPluginStart() {
   HookEvent("player_disconnect", Event_PlayerDisconnect);
 
   g_OnForceEnd = CreateGlobalForward("PugSetup_OnForceEnd", ET_Ignore, Param_Cell);
-  g_hOnGoingLive = CreateGlobalForward("PugSetup_OnGoingLive", ET_Ignore);
+  g_hOnGoingLive = CreateGlobalForward("PugSetup_OnGoingLive", ET_Ignore, Param_Cell, Param_String);
   g_hOnHelpCommand = CreateGlobalForward("PugSetup_OnHelpCommand", ET_Ignore, Param_Cell,
                                          Param_Cell, Param_Cell, Param_CellByRef);
   g_hOnKnifeRoundDecision =
