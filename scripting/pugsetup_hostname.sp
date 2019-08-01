@@ -11,6 +11,8 @@
 
 ConVar g_hEnabled;
 ConVar g_HostnameCvar;
+ConVar g_MatchStarted;
+ConVar g_MatchFinished;
 
 bool g_GotHostName = false;        // keep track of it, so we only fetch it once
 char g_HostName[MAX_HOST_LENGTH];  // stores the original hostname
@@ -34,6 +36,9 @@ public void OnPluginStart() {
 
   if (g_HostnameCvar == INVALID_HANDLE)
     SetFailState("Failed to find cvar \"hostname\"");
+
+  g_MatchStarted = CreateConVar("de_stats_match_started", "1", "Whether the match is started");
+  g_MatchFinished = CreateConVar("de_stats_match_finished", "0", "Whether the match is finished");
 
   HookEvent("round_start", Event_RoundStart);
 }
@@ -86,5 +91,7 @@ public void PugSetup_OnMatchOver() {
   if (GetConVarInt(g_hEnabled) == 0)
     return;
 
+  g_MatchFinished = FindConVar("de_stats_match_finished");
+  g_MatchFinished.SetBool(1);
   g_HostnameCvar.SetString(g_HostName);
 }
