@@ -2,7 +2,7 @@
 #include <sourcemod>
 
 #include "include/pugsetup.inc"
-#include "pugsetup/util.sp"
+#include "pugsetup/generic.sp"
 
 #pragma semicolon 1
 #pragma newdecls required
@@ -93,5 +93,6 @@ public void PugSetup_OnMatchOver() {
 
   g_MatchFinished = FindConVar("de_stats_match_finished");
   g_MatchFinished.SetBool(1);
+
   g_HostnameCvar.SetString(g_HostName);
 }
