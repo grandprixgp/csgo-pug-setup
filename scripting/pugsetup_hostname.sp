@@ -37,8 +37,8 @@ public void OnPluginStart() {
   if (g_HostnameCvar == INVALID_HANDLE)
     SetFailState("Failed to find cvar \"hostname\"");
 
-  g_MatchStarted = CreateConVar("de_stats_match_started", "1", "Whether the match is started");
-  g_MatchFinished = CreateConVar("de_stats_match_finished", "0", "Whether the match is finished");
+  g_MatchStarted = CreateConVar("sv_matchstarted", "1", "Whether the match is started", FCVAR_REPLICATED | FCVAR_NOTIFY);
+  g_MatchFinished = CreateConVar("sv_matchfinished", "0", "Whether the match is finished", FCVAR_REPLICATED | FCVAR_NOTIFY);
 
   HookEvent("round_start", Event_RoundStart);
 }
@@ -91,7 +91,7 @@ public void PugSetup_OnMatchOver() {
   if (GetConVarInt(g_hEnabled) == 0)
     return;
 
-  g_MatchFinished = FindConVar("de_stats_match_finished");
+  g_MatchFinished = FindConVar("sv_matchfinished");
   g_MatchFinished.SetBool(1);
 
   g_HostnameCvar.SetString(g_HostName);
