@@ -1779,7 +1779,7 @@ public void StartGame() {
     //g_DemoTimeFormatCvar.GetString(timeFormat, sizeof(timeFormat));
     int timeStamp = GetTime();
     char formattedTime[64];
-    FormatTime(formattedTime, sizeof(formattedTime), "%Y-%m-%d_%H_%M", timeStamp);
+    FormatTime(formattedTime, sizeof(formattedTime), "%Y-%m-%d_%H_%M_%S", timeStamp);
 
     // get the player count, this is {TEAMSIZE} in the format string
     char playerCount[MAX_INTEGER_STRING_LENGTH];
