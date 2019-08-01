@@ -5,7 +5,7 @@
 #include "include/logdebug.inc"
 #include "include/priorityqueue.inc"
 #include "include/pugsetup.inc"
-#include "pugsetup/util.sp"
+#include "pugsetup/generic.sp"
 
 #pragma semicolon 1
 #pragma newdecls required

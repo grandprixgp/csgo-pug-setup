@@ -10,11 +10,11 @@ public void CreateMapVote() {
     SetupMapVotePool(false);
   }
 
-  if (g_RandomizeMapOrderCvar.BoolValue) {
+  if (g_RandomizeMapOrderCvar.IntValue != 0) {
     RandomizeArray(g_MapVotePool);
   }
 
-  if (!g_InstantRunoffVotingCvar.BoolValue || g_MapList.Length < kIRVNumMapsToPick) {
+  if (g_InstantRunoffVotingCvar.IntValue == 0 || g_MapList.Length < 3) {
     StartMapVote();
   } else {
     StartInstantRunoffMapVote();
@@ -26,7 +26,7 @@ static void StartMapVote() {
   menu.SetTitle("%T", "VoteMenuTitle", LANG_SERVER);
   menu.ExitButton = false;
 
-  if (g_RandomOptionInMapVoteCvar.BoolValue) {
+  if (g_RandomOptionInMapVoteCvar.IntValue != 0) {
     char buffer[255];
     Format(buffer, sizeof(buffer), "%T", "Random", LANG_SERVER);
     AddMenuItem(menu, RANDOM_MAP_VOTE, buffer);
@@ -47,7 +47,7 @@ static void StartMapVote() {
 
 public int MapVoteHandler(Menu menu, MenuAction action, int param1, int param2) {
   if (action == MenuAction_Select && GetCvarIntSafe("sm_vote_progress_chat") == 0 &&
-      g_DisplayMapVotesCvar.BoolValue) {
+      g_DisplayMapVotesCvar.IntValue != 0) {
     // Only prints votes to chat if sourcemod isn't automatically printing votes in chat
     int client = param1;
     char clientName[MAX_NAME_LENGTH];

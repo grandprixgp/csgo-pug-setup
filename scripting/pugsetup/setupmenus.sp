@@ -230,12 +230,8 @@ public void TeamSizeMenu(int client) {
   menu.ExitButton = false;
   menu.ExitBackButton = true;
 
-  for (int i = 1; i <= g_MaxTeamSizeCvar.IntValue; i++) {
-    char teamSizeStr[32];
-    IntToString(i, teamSizeStr, sizeof(teamSizeStr));
-
-    AddMenuInt(menu, i, teamSizeStr);
-  }
+  for (int i = 1; i <= g_MaxTeamSizeCvar.IntValue; i++)
+    AddMenuInt(menu, i, "");
 
   DisplayMenu(menu, client, MENU_TIME_FOREVER);
 }
@@ -320,10 +316,7 @@ public void SetupFinished() {
 
   UpdateMapStatus();
 
-  if (FileExists("cfg/sourcemod/pugsetup/on_setup.cfg")) {
-    ServerCommand("exec sourcemod/pugsetup/on_setup.cfg");
-  }
-
+  ServerCommand("exec sourcemod/pugsetup/on_setup.cfg");
   Call_StartForward(g_hOnSetup);
   Call_Finish();
 
