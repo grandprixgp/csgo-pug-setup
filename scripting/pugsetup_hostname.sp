@@ -80,8 +80,11 @@ public void PugSetup_OnGoingLive() {
 }
 
 public Action Event_RoundStart(Event event, const char[] name, bool dontBroadcast) {
-  if (g_hEnabled.IntValue == 0 || !PugSetup_IsMatchLive())
+  if (g_hEnabled.IntValue == 0 || !PugSetup_IsMatchLive()) {
+    g_MatchStarted = FindConVar("sv_matchstarted");
+    g_MatchStarted.SetBool(false);
     return Plugin_Continue;
+  }
 
   char hostname[MAX_HOST_LENGTH];
   Format(hostname, sizeof(hostname), "%s [LIVE %d-%d]", g_HostName, CS_GetTeamScore(CS_TEAM_CT),
