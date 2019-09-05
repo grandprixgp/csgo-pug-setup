@@ -32,8 +32,9 @@ public void StartInstantRunoffMapVote() {
   g_VoteStartTime = GetTime();
   g_IRVActive = true;
   CreateTimer(1.0, Timer_ShowVoteStatus, _, TIMER_REPEAT);
-  CreateTimer(g_MapVoteTimeCvar.FloatValue, Timer_CollectIRVResults);
+  //CreateTimer(g_MapVoteTimeCvar.FloatValue, Timer_CollectIRVResults);
 }
+
 
 public Action Timer_ShowVoteStatus(Handle timer) {
   if (g_GameState != GameState_Warmup) {
@@ -42,12 +43,20 @@ public Action Timer_ShowVoteStatus(Handle timer) {
 
   int endTime = g_VoteStartTime + g_MapVoteTimeCvar.IntValue;
   int timeLeft = endTime - GetTime();
-  if (timeLeft >= 1) {
-    PrintHintTextToAll("%t", "TimeLeftInVoteHint", timeLeft);
-    return Plugin_Continue;
-  } else {
-    return Plugin_Stop;
+
+  for (int client = 0; client < MaxClients; client++) {
+      if (IsPlayer(client)) {
+        for (int i = 0; i < kNumMapsToPick; i++) {
+            if (g_ClientMapPicks[client][i] == -1) {
+                PrintHintTextToAll("Waiting for %N to vote!", client);
+                return Plugin_Continue;
+            }
+        }
+      }
   }
+
+  Timer_CollectIRVResults();
+  return Plugin_Stop;
 }
 
 static bool HasClientPickedMap(int client, int mapIndex) {
@@ -76,7 +85,7 @@ public void ShowInstantRunoffMapVote(int client, int round) {
     }
   }
 
-  menu.Display(client, g_MapVoteTimeCvar.IntValue);
+  menu.Display(client, MENU_TIME_FOREVER/*g_MapVoteTimeCvar.IntValue*/);
 }
 
 public int MapSelectionHandler(Menu menu, MenuAction action, int param1, int param2) {
@@ -158,7 +167,7 @@ static int CountMapsAlive(int& winner) {
   return count;
 }
 
-public Action Timer_CollectIRVResults(Handle timer) {
+public Action Timer_CollectIRVResults(/*Handle timer*/) {
   g_IRVActive = false;
 
   if (g_GameState != GameState_Warmup) {
