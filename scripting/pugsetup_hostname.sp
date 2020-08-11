@@ -102,4 +102,7 @@ public void PugSetup_OnMatchOver() {
   g_MatchFinished.SetBool(true);
 
   g_HostnameCvar.SetString(g_HostName);
+  for (int i = 1; i <= MaxClients; i++) {
+		Kick(i, "The game is over!");
+    }
 }
